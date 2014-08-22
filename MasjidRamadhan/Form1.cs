@@ -11,23 +11,40 @@ using System.Data.OleDb;
 using System.Threading;
 using System.Globalization;
 using System.IO;
+using Microsoft.DirectX.AudioVideoPlayback;
 
 namespace MasjidRamadhan
 {
     public partial class Form1 : Form
     {
-        static string connectionString1 = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=generated.xlsx;" +
-                                          "Extended Properties=\"Excel 12.0 Xml;HDR=YES\"";
-        static string sumbanganDataConnectionString =
-            "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=SUMBANGAN MASJID.xls;" +
-            "Extended Properties=\"Excel 8.0;HDR=YES\"";
+        static string sumbanganConnectionString =
+            "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=SUMBANGAN MASJID.xls;" +
+            "Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1;\"";
+
+        int sumbanganOffset = 0;
+        const int sumbanganLimit = 10;
+        int sumbanganColCount, sumbanganRowCount;
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            GoFullscreen(true);
+
+            CreatePage();
+            webBrowser1.DocumentCompleted += (ws, we) =>
+            {
+                webBrowser1.Document.GetElementById("imgObj").InnerHtml = CreatePageTable();
+            };
+
+            ExcelOleHelper.GetSheetRange("Laporan Keuangan$", sumbanganConnectionString, out sumbanganColCount, out sumbanganRowCount);
+            timer1.Enabled = true;
+        }
+
+        private void CreatePage()
         {
             try
             {
@@ -37,30 +54,9 @@ namespace MasjidRamadhan
                     page = reader.ReadToEnd();
                     reader.Close();
                 }
-
+                
                 if (page == "")
                     return;
-
-                string table = "<table>";
-                DataTable dt = SelectSumbangan(0, 20);
-                table += "<tr>";
-                foreach (DataColumn dc in dt.Columns)
-                {
-                    table += "<td>" + dc.ColumnName + "</td>";
-                }
-                table += "</tr>";
-                foreach (DataRow dr in dt.Rows)
-                {
-                    table += "<tr>";
-                    foreach (var cell in dr.ItemArray)
-                    {
-                        table += "<td>" + cell.ToString() + "</td>";
-                    }
-                    table += "</tr>";
-                }
-                table += "</table>";
-
-                page = page.Replace("${table}", table);
 
                 webBrowser1.Navigate("about:blank");
                 if (webBrowser1.Document != null)
@@ -72,33 +68,30 @@ namespace MasjidRamadhan
             catch
             {
             }
-            /*
-            webBrowser1.DocumentText =
-                "<HEAD>\r\n" +
-                "<SCRIPT>                    \r\n" +
-                "var startImage =\"fruit.gif\";\r\n" +
-                "var endImage=\"mouse.gif\";   \r\n" +
-                "function doTrans() {        \r\n" +
-                "                            \r\n" +
-                "        imgObj.filters[0].apply();                \r\n" +
-                "        if (oImg.src.indexOf(startImage)!=-1) {   \r\n" +
-                "            oImg.src = endImage;                  \r\n" +
-                "            imgObj.style.backgroundColor = \"gold\";\r\n" +
-                "            imgObjText.innerHTML =             \"<BR><B>Second Page</B><BR><BR>Using the <B>play</B> method reveals the changes in the SPAN element content.\"        }\r\n" +
-                "        else {                                                                                                                                                       \r\n" +
-                "            oImg.src = startImage;                                                                                                                                   \r\n" +
-                "            imgObj.style.backgroundColor = \"skyblue\";                                                                                                                \r\n" +
-                "            imgObjText.innerHTML =             \"<BR><b>First Page</b><BR><BR>Using the <B>apply</B> method prepares this SPAN element for content changes.\"        } \r\n" +
-                "        imgObj.filters[0].play();                                                                                                                                    \r\n" +
-                "}                                                                                                                                                                    \r\n" +
-                "</SCRIPT>                                                                                                                                                            \r\n" +
-                "</HEAD>                                                                                                                                                              \r\n" +
-                "<BODY>                                                                                                                                                               \r\n" +
-                "<SPAN style=\"FILTER: progid:DXImageTransform.Microsoft.RadialWipe(wipestyle=CLOCK); BACKGROUND-COLOR: skyblue; PADDING-LEFT: 13px; WIDTH: 305px; PADDING-RIGHT: 10px; FONT: 9pt/1.3 verdana; HEIGHT: 150px; COLOR: black\" id=imgObj><IMG style=\"MARGIN: 8px\" id=oImg align=left src=\"fruit.gif\">\r\n" +
-                "<DIV id=imgObjText><BR><B>First Page</B><BR><BR>Using the <B>apply</B> method prepares this SPAN element for content changes.</DIV></SPAN><BR><BR>\r\n" +
-                "<BUTTON onclick=\"doTrans()\">Play Transition</BUTTON>\r\n" +
-                "</BODY>\r\n";
-             */
+        }
+
+        private string CreatePageTable()
+        {
+            DataTable dt = SelectSumbangan();
+
+            string table = "<table>";
+            table += "<tr>";
+            foreach (DataColumn dc in dt.Columns)
+            {
+                table += "<td>" + dc.ColumnName + "</td>";
+            }
+            table += "</tr>";
+            foreach (DataRow dr in dt.Rows)
+            {
+                table += "<tr>";
+                foreach (var cell in dr.ItemArray)
+                {
+                    table += "<td>" + cell.ToString() + "</td>";
+                }
+                table += "</tr>";
+            }
+            table += "</table>";
+            return table;
         }
 
         private void GoFullscreen(bool fullscreen)
@@ -116,53 +109,66 @@ namespace MasjidRamadhan
             }
         }
 
-        private List<string> GetSheetList(string connectionString)
+        private DataTable SelectSumbangan()
         {
             try
             {
-                using (OleDbConnection conn = new OleDbConnection(connectionString))
-                {
-                    conn.Open();
-                    OleDbCommand cmd = new OleDbCommand();
-                    cmd.Connection = conn;
-
-                    DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-
-                    List<string> result = new List<string>();
-                    foreach (DataRow dr in dtSheet.Rows)
-                    {
-                        result.Add(dr["TABLE_NAME"].ToString());
-                    }
-
-                    conn.Close();
-
-                    return result;
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private DataTable SelectSumbangan(int offset, int limit)
-        {
-            DataTable dt = new DataTable();
-            try
-            {
-                using (OleDbConnection conn = new OleDbConnection(sumbanganDataConnectionString))
+                using (OleDbConnection conn = new OleDbConnection(sumbanganConnectionString))
                 {
                     conn.Open();
 
-                    int colCount, rowCount;
-                    GetSheetRange("Laporan Keuangan$", conn, out colCount, out rowCount);
-
-                    if (offset < rowCount)
+                    DataTable dt = new DataTable();
+                    if (sumbanganOffset < sumbanganRowCount)
                     {
-                        string rangeString = GetRangeString(offset, limit, colCount, rowCount);
+                        string rangeString = ExcelOleHelper.GetRangeString(sumbanganOffset, sumbanganRowCount - sumbanganLimit, sumbanganColCount, sumbanganRowCount);
                         OleDbCommand cmd = new OleDbCommand("SELECT * FROM [Laporan Keuangan$" + rangeString + "]", conn);
-                        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                        da.Fill(dt);
+                        OleDbDataReader reader = cmd.ExecuteReader();
+                        int i = 0, count = 0;
+                        bool isFirst = true;
+                        while (reader.Read() && count < sumbanganLimit)
+                        {
+                            DateTime dateValue;
+                            bool isDate = DateTime.TryParse(reader[1].ToString(), out dateValue);
+                            if (isDate)
+                            {
+                                string dateString = dateValue.ToString("dd/MM/yyyy");
+                                float uang;
+                                string uangString;
+                                if (float.TryParse(reader[4].ToString(), out uang))
+                                {
+                                    uangString = uang.ToString("N2");
+                                }
+                                else
+                                {
+                                    uangString = reader[4].ToString();
+                                }
+
+                                if (isFirst)
+                                {
+                                    dt.Columns.AddRange(new DataColumn[] {
+                                        new DataColumn(dateString),
+                                        new DataColumn(reader[2].ToString()),
+                                        new DataColumn(reader[3].ToString()),
+                                        new DataColumn(uangString)
+                                    });
+                                    isFirst = false;
+                                }
+                                else
+                                {
+                                    DataRow row = dt.NewRow();
+                                    row[0] = dateString;
+                                    row[1] = reader[2].ToString();
+                                    row[2] = reader[3].ToString();
+                                    row[3] = uangString;
+                                    dt.Rows.Add(row);
+                                }
+                                count++;
+                            }
+                            i++;
+                        }
+                        sumbanganOffset += i;
+                        if (sumbanganOffset > sumbanganRowCount)
+                            sumbanganOffset = 0;
                     }
 
                     conn.Close();
@@ -172,49 +178,15 @@ namespace MasjidRamadhan
             }
             catch
             {
-                return dt;
+                return null;
             }
         }
 
-        private static string GetRangeString(int offset, int limit, int colCount, int rowCount)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            int lastRow = offset + limit;
-            if (lastRow > rowCount)
-            {
-                lastRow = rowCount;
-            }
-            string rangeString = "A" + (offset + 1) + ":" + ((char)('A' + colCount - 1)) + lastRow;
-            return rangeString;
-        }
-
-        private void GetSheetRange(string sheetName, out int colCount, out int rowCount)
-        {
-            try
-            {
-                using (OleDbConnection conn = new OleDbConnection(sumbanganDataConnectionString))
-                {
-                    conn.Open();
-                    GetSheetRange(sheetName, conn, out colCount, out rowCount);
-
-                    conn.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private static void GetSheetRange(string sheetName, OleDbConnection conn, out int colCount, out int rowCount)
-        {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM [" + sheetName + "]", conn);
-            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            colCount = dt.Columns.Count;
-            rowCount = dt.Rows.Count;
+            string table = CreatePageTable();
+            object[] args = new object[] { table };
+            webBrowser1.Document.InvokeScript("doTrans", args);
         }
     }
 }
