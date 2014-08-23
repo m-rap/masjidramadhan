@@ -1,0 +1,8 @@
+- cek row apakah merupakan record sumbangan [v]
+- layout keseluruhan [v]
+- layout sumbangan [v]
+- animasi slide tiap panel [x]
+- pindah dari slide foto ke layout sumbangan [v]
+- play video di panel [x]
+- read data donatur [x]
+- teks berjalan [x]

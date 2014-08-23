@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Transitions;
 using System.Data.OleDb;
 using System.Threading;
 using System.Globalization;
@@ -20,6 +19,13 @@ namespace MasjidRamadhan
         static string sumbanganConnectionString =
             "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=SUMBANGAN MASJID.xls;" +
             "Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1;\"";
+
+        int mode = 0;
+        // 0 image mode
+        // 1 sumbangan mode
+
+        string[] images;
+        int currImage;
 
         int sumbanganOffset = 0;
         const int sumbanganLimit = 10;
@@ -37,10 +43,19 @@ namespace MasjidRamadhan
             CreatePage();
             webBrowser1.DocumentCompleted += (ws, we) =>
             {
-                webBrowser1.Document.GetElementById("imgObj").InnerHtml = CreatePageTable();
+                if (mode == 0)
+                {
+                    webBrowser1.Document.GetElementById("imgObj").InnerHtml = CreateImagePage();
+                }
+                else
+                {
+                    webBrowser1.Document.GetElementById("imgObj").InnerHtml = CreatePageTable();
+                }
             };
 
             ExcelOleHelper.GetSheetRange("Laporan Keuangan$", sumbanganConnectionString, out sumbanganColCount, out sumbanganRowCount);
+            images = Directory.GetFiles("files\\gbr Utama\\");
+            currImage = 0;
             timer1.Enabled = true;
         }
 
@@ -48,22 +63,24 @@ namespace MasjidRamadhan
         {
             try
             {
-                string page = "";
-                using (StreamReader reader = new StreamReader("sumbangan_page.html"))
-                {
-                    page = reader.ReadToEnd();
-                    reader.Close();
-                }
-                
-                if (page == "")
-                    return;
+                webBrowser1.Navigate(Path.Combine(Directory.GetCurrentDirectory(), "sumbangan_page.html"));
 
-                webBrowser1.Navigate("about:blank");
-                if (webBrowser1.Document != null)
-                {
-                    webBrowser1.Document.Write(string.Empty);
-                }
-                webBrowser1.DocumentText = page;
+                //string page = "";
+                //using (StreamReader reader = new StreamReader("sumbangan_page.html"))
+                //{
+                //    page = reader.ReadToEnd();
+                //    reader.Close();
+                //}
+                //
+                //if (page == "")
+                //    return;
+                //
+                //webBrowser1.Navigate("about:blank");
+                //if (webBrowser1.Document != null)
+                //{
+                //    webBrowser1.Document.Write(string.Empty);
+                //}
+                //webBrowser1.DocumentText = page;
             }
             catch
             {
@@ -74,23 +91,40 @@ namespace MasjidRamadhan
         {
             DataTable dt = SelectSumbangan();
 
-            string table = "<table>";
-            table += "<tr>";
+            string table = "<table id=\"tabel_sumbangan\">";
+            table +=
+                "<thead>\r\n" +
+                "    <tr>\r\n" +
+                "        <td>TANGGAL</td>\r\n" +
+                "        <td>NAMA</td>\r\n" +
+                "        <td>ALAMAT</td>\r\n" +
+                "        <td>SUMBANGAN (Rp)</td>\r\n" +
+                "    </tr>\r\n" +
+                "</thead>\r\n" +
+                "<tbody>\r\n";
+            table += "<tr class=\"ganjil\">";
+
+            int j = 0;
             foreach (DataColumn dc in dt.Columns)
             {
-                table += "<td>" + dc.ColumnName + "</td>";
+                table += "<td" + ((j == 3) ? " style=\"text-align:right;\"" : "") + ">" + dc.ColumnName + "</td>";
+                j++;
             }
+            int i = 0;
             table += "</tr>";
             foreach (DataRow dr in dt.Rows)
             {
-                table += "<tr>";
+                table += "<tr class=\"" + ((i % 2 == 0) ? "genap" : "ganjil") + "\">";
+                j = 0;
                 foreach (var cell in dr.ItemArray)
                 {
-                    table += "<td>" + cell.ToString() + "</td>";
+                    table += "<td" + ((j == 3) ? " style=\"text-align:right;\"" : "") + ">" + cell.ToString() + "</td>";
+                    j++;
                 }
                 table += "</tr>";
+                i++;
             }
-            table += "</table>";
+            table += "</tbody></table>";
             return table;
         }
 
@@ -182,11 +216,33 @@ namespace MasjidRamadhan
             }
         }
 
+        private string CreateImagePage()
+        {
+            if (images.Length > 0)
+            {
+                if (currImage < images.Length)
+                {
+                    return "<img style='width:100%; height:100%; position: absolute;' src='" + images[currImage++] + "' />";
+                }
+                else
+                {
+                    mode++;
+                }
+            }
+            return "";
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-            string table = CreatePageTable();
-            object[] args = new object[] { table };
-            webBrowser1.Document.InvokeScript("doTrans", args);
+            switch (mode)
+            {
+                case 0:
+                    webBrowser1.Document.InvokeScript("doTrans", new object[] { CreateImagePage() });
+                    break;
+                case 1:
+                    webBrowser1.Document.InvokeScript("doTrans", new object[] { CreatePageTable() });
+                    break;
+            };
         }
     }
 }
