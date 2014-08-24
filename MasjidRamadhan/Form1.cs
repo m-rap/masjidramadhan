@@ -20,16 +20,35 @@ namespace MasjidRamadhan
             "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=SUMBANGAN MASJID.xls;" +
             "Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1;\"";
 
-        int mode = 0;
         // 0 image mode
         // 1 sumbangan mode
+        // 2 saldo mode
+        int mode = 0;
 
-        string[] images;
+        List<string> images;
         int currImage;
+
+        List<string> images_bawah1;
+        int currImage_bawah1;
+
+        List<string> images_bawah2;
+        int currImage_bawah2;
+
+        List<string> images_bawah3;
+        int currImage_bawah3;
+
+        List<string> images_bawah4;
+        int currImage_bawah4;
+
+        List<string> images_bawah5;
+        int currImage_bawah5;
 
         int sumbanganOffset = 0;
         const int sumbanganLimit = 10;
         int sumbanganColCount, sumbanganRowCount;
+        private List<string> teksList;
+        private int currentTeks;
+        private Video video;
 
         public Form1()
         {
@@ -38,57 +57,214 @@ namespace MasjidRamadhan
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            GoFullscreen(true);
-
-            CreatePage();
-            webBrowser1.DocumentCompleted += (ws, we) =>
-            {
-                if (mode == 0)
-                {
-                    webBrowser1.Document.GetElementById("imgObj").InnerHtml = CreateImagePage();
-                }
-                else
-                {
-                    webBrowser1.Document.GetElementById("imgObj").InnerHtml = CreatePageTable();
-                }
-            };
+            //GoFullscreen(true);
 
             ExcelOleHelper.GetSheetRange("Laporan Keuangan$", sumbanganConnectionString, out sumbanganColCount, out sumbanganRowCount);
-            images = Directory.GetFiles("files\\gbr Utama\\");
+            
+            images = Directory.GetFiles("files\\gbr Utama\\").ToList();
             currImage = 0;
-            timer1.Enabled = true;
+            images_bawah1 = Directory.GetFiles("files\\gbr1\\").ToList();
+            currImage_bawah1 = 0;
+            images_bawah2 = Directory.GetFiles("files\\gbr2\\").ToList();
+            currImage_bawah2 = 0;
+            images_bawah3 = Directory.GetFiles("files\\gbr3\\").ToList();
+            currImage_bawah3 = 0;
+            images_bawah4 = Directory.GetFiles("files\\gbr4\\").ToList();
+            currImage_bawah4 = 0;
+            images_bawah5 = Directory.GetFiles("files\\gbr5\\").ToList();
+            currImage_bawah5 = 0;
+
+            CreatePage();
+
+            Point loc = label_berjalan.Location;
+            loc.X = panel2.Size.Width;
+            label_berjalan.Location = loc;
+            ReadTeks();
+            currentTeks = 0;
+            try
+            {
+                label_berjalan.Text = teksList[currentTeks];
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                video = new Video("files\\video\\Video Mushola.wmv");
+                video.Owner = panel_video;
+                video.Play();
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
-        private void CreatePage()
+        private void ReadTeks()
         {
             try
             {
-                webBrowser1.Navigate(Path.Combine(Directory.GetCurrentDirectory(), "sumbangan_page.html"));
-
-                //string page = "";
-                //using (StreamReader reader = new StreamReader("sumbangan_page.html"))
-                //{
-                //    page = reader.ReadToEnd();
-                //    reader.Close();
-                //}
-                //
-                //if (page == "")
-                //    return;
-                //
-                //webBrowser1.Navigate("about:blank");
-                //if (webBrowser1.Document != null)
-                //{
-                //    webBrowser1.Document.Write(string.Empty);
-                //}
-                //webBrowser1.DocumentText = page;
+                using (StreamReader reader = new StreamReader("files\\teks\\txt1.txt"))
+                {
+                    teksList = new List<string>();
+                    while (!reader.EndOfStream)
+                        teksList.Add(reader.ReadLine());
+                }
             }
             catch
             {
             }
         }
 
-        private string CreatePageTable()
+        private void CreatePage()
         {
+            try
+            {
+                string pagePath = Path.Combine(Directory.GetCurrentDirectory(), "page_bawah.html");
+                webBrowser_besar.Navigate (Path.Combine(Directory.GetCurrentDirectory(), "sumbangan_page.html"));
+                webBrowser_bawah1.Navigate(pagePath);
+                webBrowser_bawah2.Navigate(pagePath);
+                webBrowser_bawah3.Navigate(pagePath);
+                webBrowser_bawah4.Navigate(pagePath);
+                webBrowser_bawah5.Navigate(pagePath);
+
+                webBrowser_besar.DocumentCompleted += (ws, we) =>
+                {
+                    webBrowser_besar.Document.GetElementById("imgObj").InnerHtml = InnerHtml();
+                };
+                //webBrowser_bawah1.DocumentCompleted += (ws, we) =>
+                //{
+                //    webBrowser_bawah1.Document.GetElementById("imgObj").InnerHtml = ShowImage(ref images_bawah1, ref currImage_bawah1);
+                //};
+                //webBrowser_bawah2.DocumentCompleted += (ws, we) =>
+                //{
+                //    webBrowser_bawah2.Document.GetElementById("imgObj").InnerHtml = ShowImage(ref images_bawah2, ref currImage_bawah2);
+                //};
+                //webBrowser_bawah3.DocumentCompleted += (ws, we) =>
+                //{
+                //    webBrowser_bawah3.Document.GetElementById("imgObj").InnerHtml = ShowImage(ref images_bawah3, ref currImage_bawah3);
+                //};
+                //webBrowser_bawah4.DocumentCompleted += (ws, we) =>
+                //{
+                //    webBrowser_bawah4.Document.GetElementById("imgObj").InnerHtml = ShowImage(ref images_bawah4, ref currImage_bawah4);
+                //};
+                //webBrowser_bawah5.DocumentCompleted += (ws, we) =>
+                //{
+                //    webBrowser_bawah5.Document.GetElementById("imgObj").InnerHtml = ShowImage(ref images_bawah5, ref currImage_bawah5);
+                //};
+            }
+            catch
+            {
+            }
+        }
+
+        private void GoFullscreen(bool fullscreen)
+        {
+            if (fullscreen)
+            {
+                this.WindowState = FormWindowState.Normal;
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                this.Bounds = Screen.PrimaryScreen.Bounds;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Maximized;
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            }
+        }
+
+        private DataTable SelectSumbangan()
+        {
+            try
+            {
+                using (OleDbConnection conn = new OleDbConnection(sumbanganConnectionString))
+                {
+                    conn.Open();
+
+                    DataTable dt = new DataTable();
+                    if (sumbanganOffset >= sumbanganRowCount)
+                    {
+                        return dt;
+                    }
+
+                    string rangeString = ExcelOleHelper.GetRangeString(sumbanganOffset, sumbanganRowCount - sumbanganLimit, sumbanganColCount, sumbanganRowCount);
+                    OleDbCommand cmd = new OleDbCommand("SELECT * FROM [Laporan Keuangan$" + rangeString + "]", conn);
+                    OleDbDataReader reader = cmd.ExecuteReader();
+                    int i = 0, count = 0;
+                    bool isFirst = true;
+                    while (reader.Read() && count < sumbanganLimit)
+                    {
+                        DateTime dateValue;
+                        bool isDate = DateTime.TryParse(reader[1].ToString(), out dateValue);
+                        if (isDate)
+                        {
+                            string dateString = dateValue.ToString("dd/MM/yyyy");
+                            float uang;
+                            string uangString;
+                            if (float.TryParse(reader[4].ToString(), out uang))
+                            {
+                                uangString = uang.ToString("N2");
+                            }
+                            else
+                            {
+                                uangString = reader[4].ToString();
+                            }
+
+                            if (isFirst)
+                            {
+                                dt.Columns.AddRange(new DataColumn[] {
+                                        new DataColumn(dateString),
+                                        new DataColumn(reader[2].ToString()),
+                                        new DataColumn(reader[3].ToString()),
+                                        new DataColumn(uangString)
+                                    });
+                                isFirst = false;
+                            }
+                            else
+                            {
+                                DataRow row = dt.NewRow();
+                                row[0] = dateString;
+                                row[1] = reader[2].ToString();
+                                row[2] = reader[3].ToString();
+                                row[3] = uangString;
+                                dt.Rows.Add(row);
+                            }
+                            count++;
+                        }
+                        i++;
+                    }
+                    sumbanganOffset += i;
+
+                    conn.Close();
+
+                    return dt;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static string ShowImage(ref List<string> images, ref int currImage)
+        {
+            lock (images)
+            {
+                if (currImage >= images.Count)
+                    currImage = 0;
+                return "<img class=\"midvertical\" src='" + images[currImage++] + "' />";
+            }
+        }
+
+        private string ShowTabelSumbangan()
+        {
+            if (sumbanganOffset > sumbanganRowCount)
+            {
+                sumbanganOffset = 0;
+                NextMode();
+                return InnerHtml();
+            }
+
             DataTable dt = SelectSumbangan();
 
             string table = "<table id=\"tabel_sumbangan\">";
@@ -128,22 +304,7 @@ namespace MasjidRamadhan
             return table;
         }
 
-        private void GoFullscreen(bool fullscreen)
-        {
-            if (fullscreen)
-            {
-                this.WindowState = FormWindowState.Normal;
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-                this.Bounds = Screen.PrimaryScreen.Bounds;
-            }
-            else
-            {
-                this.WindowState = FormWindowState.Maximized;
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
-            }
-        }
-
-        private DataTable SelectSumbangan()
+        private string ShowSaldo()
         {
             try
             {
@@ -151,98 +312,163 @@ namespace MasjidRamadhan
                 {
                     conn.Open();
 
+                    OleDbCommand cmd = new OleDbCommand("SELECT * FROM [Pengeluaran$H4:H7]", conn);
+                    OleDbDataAdapter da = new OleDbDataAdapter(cmd);
                     DataTable dt = new DataTable();
-                    if (sumbanganOffset < sumbanganRowCount)
-                    {
-                        string rangeString = ExcelOleHelper.GetRangeString(sumbanganOffset, sumbanganRowCount - sumbanganLimit, sumbanganColCount, sumbanganRowCount);
-                        OleDbCommand cmd = new OleDbCommand("SELECT * FROM [Laporan Keuangan$" + rangeString + "]", conn);
-                        OleDbDataReader reader = cmd.ExecuteReader();
-                        int i = 0, count = 0;
-                        bool isFirst = true;
-                        while (reader.Read() && count < sumbanganLimit)
-                        {
-                            DateTime dateValue;
-                            bool isDate = DateTime.TryParse(reader[1].ToString(), out dateValue);
-                            if (isDate)
-                            {
-                                string dateString = dateValue.ToString("dd/MM/yyyy");
-                                float uang;
-                                string uangString;
-                                if (float.TryParse(reader[4].ToString(), out uang))
-                                {
-                                    uangString = uang.ToString("N2");
-                                }
-                                else
-                                {
-                                    uangString = reader[4].ToString();
-                                }
+                    da.Fill(dt);
 
-                                if (isFirst)
-                                {
-                                    dt.Columns.AddRange(new DataColumn[] {
-                                        new DataColumn(dateString),
-                                        new DataColumn(reader[2].ToString()),
-                                        new DataColumn(reader[3].ToString()),
-                                        new DataColumn(uangString)
-                                    });
-                                    isFirst = false;
-                                }
-                                else
-                                {
-                                    DataRow row = dt.NewRow();
-                                    row[0] = dateString;
-                                    row[1] = reader[2].ToString();
-                                    row[2] = reader[3].ToString();
-                                    row[3] = uangString;
-                                    dt.Rows.Add(row);
-                                }
-                                count++;
-                            }
-                            i++;
-                        }
-                        sumbanganOffset += i;
-                        if (sumbanganOffset > sumbanganRowCount)
-                            sumbanganOffset = 0;
-                    }
+                    float temp;
+                    string terima, keluar, saldo;
 
+                    if (float.TryParse(dt.Rows[0].ItemArray[0].ToString(), out temp))
+                        terima = temp.ToString("N2");
+                    else
+                        terima = "";
+                    if (float.TryParse(dt.Rows[1].ItemArray[0].ToString(), out temp))
+                        keluar = temp.ToString("N2");
+                    else
+                        keluar = "";
+                    if (float.TryParse(dt.Rows[2].ItemArray[0].ToString(), out temp))
+                        saldo = temp.ToString("N2");
+                    else
+                        saldo = "";
+
+                    string result =
+                        "<div id=\"div_saldo\">\r\n" +
+                        "</div>\r\n" +
+                        "<table id=\"tabel_saldo\">\r\n" +
+                        "<tr>\r\n" +
+                        "    <td>Total Seluruh Penerimaan</td>\r\n" +
+                        "    <td>:</td>\r\n" +
+                        "    <td style=\"text-align: right;\">" + terima + "</td>\r\n" +
+                        "</tr>\r\n" +
+                        "<tr>\r\n" +
+                        "    <td>Total Seluruh Pengeluaran</td>\r\n" +
+                        "    <td>:</td>\r\n" +
+                        "    <td>" + keluar + "</td>\r\n" +
+                        "</tr>\r\n" +
+                        "<tr>\r\n" +
+                        "    <td>Saldo</td>\r\n" +
+                        "    <td>:</td>\r\n" +
+                        "    <td style=\"text-align: right;\">" + saldo + "</td>\r\n" +
+                        "</tr>\r\n" +
+                        "</table>";
+                    
                     conn.Close();
 
-                    return dt;
+                    NextMode();
+
+                    return result;
                 }
             }
             catch
             {
-                return null;
+                return "";
             }
         }
 
-        private string CreateImagePage()
+        private void NextMode()
         {
-            if (images.Length > 0)
-            {
-                if (currImage < images.Length)
-                {
-                    return "<img style='width:100%; height:100%; position: absolute;' src='" + images[currImage++] + "' />";
-                }
-                else
-                {
-                    mode++;
-                }
-            }
-            return "";
+            mode++;
+            if (mode > 2)
+                mode = 0;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void timer_panelBesar_Tick(object sender, EventArgs e)
+        {
+            webBrowser_besar.Document.InvokeScript("doTrans", new object[] { InnerHtml() });
+        }
+
+        private string InnerHtml()
         {
             switch (mode)
             {
                 case 0:
-                    webBrowser1.Document.InvokeScript("doTrans", new object[] { CreateImagePage() });
-                    break;
+                    if (currImage < images.Count)
+                        return ShowImage(ref images, ref currImage);
+                    else
+                    {
+                        NextMode();
+                        return InnerHtml();
+                    }
+                case 2:
+                    return ShowTabelSumbangan();
                 case 1:
-                    webBrowser1.Document.InvokeScript("doTrans", new object[] { CreatePageTable() });
-                    break;
-            };
+                    return ShowSaldo();
+                default:
+                    return "";
+            }
+        }
+
+        private void timer_teksBerjalan_Tick(object sender, EventArgs e)
+        {
+            Point loc = label_berjalan.Location;
+            if (loc.X + label_berjalan.Size.Width < 0)
+            {
+                loc.X = panel2.Size.Width;
+                ReadTeks();
+                currentTeks = (currentTeks + 1) % teksList.Count;
+                label_berjalan.Text = teksList[currentTeks];
+            }
+            else
+                loc.X -= 5;
+            label_berjalan.Location = loc;
+        }
+
+        private void timer_panelBawah1_Tick(object sender, EventArgs e)
+        {
+            webBrowser_bawah1.Document.InvokeScript("doTrans", new object[] { ShowImage(ref images_bawah1, ref currImage_bawah1) });
+            
+            if (!timer_panelBawah2.Enabled)
+                timer_panelBawah2.Enabled = true;
+        }
+
+        private void timer_panelBawah2_Tick(object sender, EventArgs e)
+        {
+            webBrowser_bawah2.Document.InvokeScript("doTrans", new object[] { ShowImage(ref images_bawah2, ref currImage_bawah2) });
+            
+            if (!timer_panelBawah3.Enabled)
+                timer_panelBawah3.Enabled = true;
+        }
+
+        private void timer_panelBawah3_Tick(object sender, EventArgs e)
+        {
+            webBrowser_bawah3.Document.InvokeScript("doTrans", new object[] { ShowImage(ref images_bawah3, ref currImage_bawah3) });
+
+            if (!timer_panelBawah4.Enabled)
+                timer_panelBawah4.Enabled = true;
+        }
+
+        private void timer_panelBawah4_Tick(object sender, EventArgs e)
+        {
+            webBrowser_bawah4.Document.InvokeScript("doTrans", new object[] { ShowImage(ref images_bawah4, ref currImage_bawah4) });
+
+            if (!timer_panelBawah5.Enabled)
+                timer_panelBawah5.Enabled = true;
+        }
+
+        private void timer_panelBawah5_Tick(object sender, EventArgs e)
+        {
+            webBrowser_bawah5.Document.InvokeScript("doTrans", new object[] { ShowImage(ref images_bawah5, ref currImage_bawah5) });
+        }
+
+        bool isFullScreen = false;
+        private void Form1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.F11)
+            {
+                isFullScreen = !isFullScreen;
+                GoFullscreen(isFullScreen);
+            }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F11)
+            {
+                isFullScreen = !isFullScreen;
+                GoFullscreen(isFullScreen);
+            }
         }
     }
 }

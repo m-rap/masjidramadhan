@@ -8,14 +8,38 @@
             {
                 margin: 0 auto;
                 padding: 0;
+                background-color: Black;
             }
+            
+            div#imgObj
+            {
+                FILTER: progid:DXImageTransform.Microsoft.Checkerboard( Direction=right,SquaresX=4,SquaresY=6); BACKGROUND-COLOR: transparent; FONT: 9pt/1.3 verdana; HEIGHT: 100%; width: 100%; position:absolute; COLOR: black;
+            }
+            
+            div#imgObj img
+            {
+                width:100%; height:100%; position: absolute;
+            }
+            
+            table
+            {
+                border-collapse: collapse;
+            }
+            
+            td
+            {
+                font-size: 14pt;
+                font-family: Calibri;
+            }
+            
             table#tabel_sumbangan
             {
                 top: 13%;
                 position: absolute;
                 width: 100%;
-                font-size: 14pt;
-                font-family: Calibri;
+                height: 76%;
+                max-height: 76%;
+                display: block;
             }
             table#tabel_sumbangan thead
             {
@@ -37,6 +61,23 @@
             table#tabel_sumbangan tbody .genap
             {
                 background-color:rgb(233, 237, 244);
+            }
+            
+            div#div_saldo
+            {
+                position: relative;
+                height: 40%;
+            }
+            table#tabel_saldo
+            {
+                text-align: right;
+                position: relative;
+                margin: 0 auto;
+            }
+            table#tabel_saldo td
+            {
+                font-size: 16pt;
+                padding: 2px 6px;
             }
         </style>
 	    <script type="text/javascript">
@@ -64,33 +105,20 @@
 	    </script>
     </head>
     <body>
-        <img src="slide_background.png" style="position:absolute; width:100%; height:100%; z-index:1;" />
-	    <div style="FILTER: progid:DXImageTransform.Microsoft.Checkerboard( Direction=right,SquaresX=4,SquaresY=6); BACKGROUND-COLOR: transparent; FONT: 9pt/1.3 verdana; HEIGHT: 100%; width: 100%; position:absolute; COLOR: black; z-index:2;" id="imgObj">
-		    <table id="tabel_sumbangan">
-                <thead style="">
-                    <tr>
-                        <td>asd</td>
-                        <td>asd</td>
-                        <td>asd</td>
-                        <td>asd</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="ganjil">
-                        <td>asd</td>
-                        <td>asd</td>
-                        <td>asd</td>
-                        <td>asd</td>
-                    </tr>
-                    <tr class="genap">
-                        <td>asd</td>
-                        <td>asd</td>
-                        <td>asd</td>
-                        <td style="text-align:right;">asd</td>
-                    </tr>
-                </tbody>
-            </table>
+        <img src="slide_background.png" style="position:absolute; width:100%; height:100%; z-index:0;" alt="" />
+        <div style="FILTER: progid:DXImageTransform.Microsoft.Checkerboard( Direction=right,SquaresX=4,SquaresY=6); BACKGROUND-COLOR: transparent; FONT: 9pt/1.3 verdana; HEIGHT: 100%; width: 100%; position:absolute; COLOR: black;" id="imgObj">
+            
+            <table id="tabel_sumbangan"><thead>
+    <tr>
+        <td>TANGGAL</td>
+        <td>NAMA</td>
+        <td>ALAMAT</td>
+        <td>SUMBANGAN (Rp)</td>
+    </tr>
+</thead>
+<tbody>
+<tr class="ganjil"><td>13/04/2011</td><td>Saldo dari CIMB</td><td>Column1</td><td style="text-align:right;">2,742,600.00</td></tr><tr class="genap"><td>13/04/2011</td><td>Ny. Hj. S.Rukijah A. Rachman</td><td>PBI  P7  -  28  Mlg</td><td style="text-align:right;">10,000,000.00</td></tr><tr class="ganjil"><td>13/04/2011</td><td>Moch. Solichin</td><td>PBI  N1 -  57  Mlg</td><td style="text-align:right;">10,000.00</td></tr><tr class="genap"><td>29/04/2011</td><td>Ivan Santoso</td><td>PBI  K7 -  35  Mlg</td><td style="text-align:right;">2,000,000.00</td></tr><tr class="ganjil"><td>02/05/2011</td><td>H. Adi Santoso</td><td>PBI N3  -  16  Mlg</td><td style="text-align:right;">1,000,000.00</td></tr><tr class="genap"><td>02/05/2011</td><td>H. Munadirin</td><td>PBI  K7  -  34  Mlg</td><td style="text-align:right;">1,000,000.00</td></tr><tr class="ganjil"><td>04/05/2011</td><td>H. Gatot Wibowo</td><td>PBI  O1  -  45  Mlg</td><td style="text-align:right;">500,000.00</td></tr><tr class="genap"><td>06/05/2011</td><td>Numi  Pudjiastuti</td><td>Surabaya</td><td style="text-align:right;">700,000.00</td></tr><tr class="ganjil"><td>06/05/2011</td><td>Sunarjo</td><td>PBI  N5  -  25  Mlg</td><td style="text-align:right;">1,500,000.00</td></tr><tr class="genap"><td>08/05/2011</td><td>H. Imron</td><td>PBI  J5  -  11  Mlg</td><td style="text-align:right;">2,500,000.00</td></tr></tbody></table>
+
 	    </div>
-	    <button onclick="doTrans('abc')">Play Transition</button>
     </body>
 </html>

@@ -29,134 +29,198 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.webBrowser_besar = new System.Windows.Forms.WebBrowser();
+            this.timer_panelBesar = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.webBrowser2 = new System.Windows.Forms.WebBrowser();
-            this.webBrowser3 = new System.Windows.Forms.WebBrowser();
-            this.webBrowser4 = new System.Windows.Forms.WebBrowser();
-            this.webBrowser5 = new System.Windows.Forms.WebBrowser();
-            this.webBrowser6 = new System.Windows.Forms.WebBrowser();
-            this.webBrowser7 = new System.Windows.Forms.WebBrowser();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.webBrowser_bawah1 = new System.Windows.Forms.WebBrowser();
+            this.webBrowser_bawah2 = new System.Windows.Forms.WebBrowser();
+            this.webBrowser_bawah3 = new System.Windows.Forms.WebBrowser();
+            this.webBrowser_bawah4 = new System.Windows.Forms.WebBrowser();
+            this.webBrowser_bawah5 = new System.Windows.Forms.WebBrowser();
+            this.panel_video = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.timer_teksBerjalan = new System.Windows.Forms.Timer(this.components);
+            this.timer_panelBawah1 = new System.Windows.Forms.Timer(this.components);
+            this.timer_panelBawah2 = new System.Windows.Forms.Timer(this.components);
+            this.timer_panelBawah3 = new System.Windows.Forms.Timer(this.components);
+            this.timer_panelBawah4 = new System.Windows.Forms.Timer(this.components);
+            this.timer_panelBawah5 = new System.Windows.Forms.Timer(this.components);
+            this.panel2 = new MasjidRamadhan.DoubleBufferedPanel(this.components);
+            this.label_berjalan = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // webBrowser1
+            // webBrowser_besar
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.webBrowser1, 3);
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(3, 3);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.tableLayoutPanel1.SetRowSpan(this.webBrowser1, 2);
-            this.webBrowser1.ScrollBarsEnabled = false;
-            this.webBrowser1.Size = new System.Drawing.Size(381, 286);
-            this.webBrowser1.TabIndex = 2;
+            this.tableLayoutPanel1.SetColumnSpan(this.webBrowser_besar, 3);
+            this.webBrowser_besar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser_besar.Location = new System.Drawing.Point(3, 3);
+            this.webBrowser_besar.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser_besar.Name = "webBrowser_besar";
+            this.tableLayoutPanel1.SetRowSpan(this.webBrowser_besar, 2);
+            this.webBrowser_besar.ScrollBarsEnabled = false;
+            this.webBrowser_besar.Size = new System.Drawing.Size(393, 276);
+            this.webBrowser_besar.TabIndex = 2;
             // 
-            // timer1
+            // timer_panelBesar
             // 
-            this.timer1.Interval = 5000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer_panelBesar.Enabled = true;
+            this.timer_panelBesar.Interval = 5000;
+            this.timer_panelBesar.Tick += new System.EventHandler(this.timer_panelBesar_Tick);
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 5;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser2, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser4, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser5, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser6, 3, 2);
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser7, 4, 2);
-            this.tableLayoutPanel1.Controls.Add(this.panel1, 3, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel1.Controls.Add(this.webBrowser_besar, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.webBrowser_bawah1, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.webBrowser_bawah2, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.webBrowser_bawah3, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.webBrowser_bawah4, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.webBrowser_bawah5, 4, 3);
+            this.tableLayoutPanel1.Controls.Add(this.panel_video, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 3, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(645, 440);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(669, 464);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
-            // webBrowser2
+            // webBrowser_bawah1
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.webBrowser2, 2);
-            this.webBrowser2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser2.Location = new System.Drawing.Point(390, 149);
-            this.webBrowser2.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser2.Name = "webBrowser2";
-            this.webBrowser2.ScrollBarsEnabled = false;
-            this.webBrowser2.Size = new System.Drawing.Size(252, 140);
-            this.webBrowser2.TabIndex = 3;
+            this.webBrowser_bawah1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser_bawah1.Location = new System.Drawing.Point(3, 325);
+            this.webBrowser_bawah1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser_bawah1.Name = "webBrowser_bawah1";
+            this.webBrowser_bawah1.ScrollBarsEnabled = false;
+            this.webBrowser_bawah1.Size = new System.Drawing.Size(127, 136);
+            this.webBrowser_bawah1.TabIndex = 4;
             // 
-            // webBrowser3
+            // webBrowser_bawah2
             // 
-            this.webBrowser3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser3.Location = new System.Drawing.Point(3, 295);
-            this.webBrowser3.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser3.Name = "webBrowser3";
-            this.webBrowser3.ScrollBarsEnabled = false;
-            this.webBrowser3.Size = new System.Drawing.Size(123, 142);
-            this.webBrowser3.TabIndex = 4;
+            this.webBrowser_bawah2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser_bawah2.Location = new System.Drawing.Point(136, 325);
+            this.webBrowser_bawah2.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser_bawah2.Name = "webBrowser_bawah2";
+            this.webBrowser_bawah2.ScrollBarsEnabled = false;
+            this.webBrowser_bawah2.Size = new System.Drawing.Size(127, 136);
+            this.webBrowser_bawah2.TabIndex = 5;
             // 
-            // webBrowser4
+            // webBrowser_bawah3
             // 
-            this.webBrowser4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser4.Location = new System.Drawing.Point(132, 295);
-            this.webBrowser4.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser4.Name = "webBrowser4";
-            this.webBrowser4.ScrollBarsEnabled = false;
-            this.webBrowser4.Size = new System.Drawing.Size(123, 142);
-            this.webBrowser4.TabIndex = 5;
+            this.webBrowser_bawah3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser_bawah3.Location = new System.Drawing.Point(269, 325);
+            this.webBrowser_bawah3.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser_bawah3.Name = "webBrowser_bawah3";
+            this.webBrowser_bawah3.ScrollBarsEnabled = false;
+            this.webBrowser_bawah3.Size = new System.Drawing.Size(127, 136);
+            this.webBrowser_bawah3.TabIndex = 6;
             // 
-            // webBrowser5
+            // webBrowser_bawah4
             // 
-            this.webBrowser5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser5.Location = new System.Drawing.Point(261, 295);
-            this.webBrowser5.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser5.Name = "webBrowser5";
-            this.webBrowser5.ScrollBarsEnabled = false;
-            this.webBrowser5.Size = new System.Drawing.Size(123, 142);
-            this.webBrowser5.TabIndex = 6;
+            this.webBrowser_bawah4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser_bawah4.Location = new System.Drawing.Point(402, 325);
+            this.webBrowser_bawah4.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser_bawah4.Name = "webBrowser_bawah4";
+            this.webBrowser_bawah4.ScrollBarsEnabled = false;
+            this.webBrowser_bawah4.Size = new System.Drawing.Size(127, 136);
+            this.webBrowser_bawah4.TabIndex = 7;
             // 
-            // webBrowser6
+            // webBrowser_bawah5
             // 
-            this.webBrowser6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser6.Location = new System.Drawing.Point(390, 295);
-            this.webBrowser6.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser6.Name = "webBrowser6";
-            this.webBrowser6.ScrollBarsEnabled = false;
-            this.webBrowser6.Size = new System.Drawing.Size(123, 142);
-            this.webBrowser6.TabIndex = 7;
+            this.webBrowser_bawah5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser_bawah5.Location = new System.Drawing.Point(535, 325);
+            this.webBrowser_bawah5.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser_bawah5.Name = "webBrowser_bawah5";
+            this.webBrowser_bawah5.ScrollBarsEnabled = false;
+            this.webBrowser_bawah5.Size = new System.Drawing.Size(131, 136);
+            this.webBrowser_bawah5.TabIndex = 8;
             // 
-            // webBrowser7
+            // panel_video
             // 
-            this.webBrowser7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser7.Location = new System.Drawing.Point(519, 295);
-            this.webBrowser7.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser7.Name = "webBrowser7";
-            this.webBrowser7.ScrollBarsEnabled = false;
-            this.webBrowser7.Size = new System.Drawing.Size(123, 142);
-            this.webBrowser7.TabIndex = 8;
+            this.tableLayoutPanel1.SetColumnSpan(this.panel_video, 2);
+            this.panel_video.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_video.Location = new System.Drawing.Point(402, 3);
+            this.panel_video.Name = "panel_video";
+            this.panel_video.Size = new System.Drawing.Size(264, 135);
+            this.panel_video.TabIndex = 9;
             // 
-            // panel1
+            // pictureBox1
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.panel1, 2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(390, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(252, 140);
-            this.panel1.TabIndex = 9;
+            this.tableLayoutPanel1.SetColumnSpan(this.pictureBox1, 2);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = global::MasjidRamadhan.Properties.Resources.panel_kanan;
+            this.pictureBox1.Location = new System.Drawing.Point(402, 144);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(264, 135);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 12;
+            this.pictureBox1.TabStop = false;
+            // 
+            // timer_teksBerjalan
+            // 
+            this.timer_teksBerjalan.Enabled = true;
+            this.timer_teksBerjalan.Interval = 50;
+            this.timer_teksBerjalan.Tick += new System.EventHandler(this.timer_teksBerjalan_Tick);
+            // 
+            // timer_panelBawah1
+            // 
+            this.timer_panelBawah1.Enabled = true;
+            this.timer_panelBawah1.Interval = 5000;
+            this.timer_panelBawah1.Tick += new System.EventHandler(this.timer_panelBawah1_Tick);
+            // 
+            // timer_panelBawah2
+            // 
+            this.timer_panelBawah2.Interval = 5000;
+            this.timer_panelBawah2.Tick += new System.EventHandler(this.timer_panelBawah2_Tick);
+            // 
+            // timer_panelBawah3
+            // 
+            this.timer_panelBawah3.Interval = 5000;
+            this.timer_panelBawah3.Tick += new System.EventHandler(this.timer_panelBawah3_Tick);
+            // 
+            // timer_panelBawah4
+            // 
+            this.timer_panelBawah4.Interval = 5000;
+            this.timer_panelBawah4.Tick += new System.EventHandler(this.timer_panelBawah4_Tick);
+            // 
+            // timer_panelBawah5
+            // 
+            this.timer_panelBawah5.Interval = 5000;
+            this.timer_panelBawah5.Tick += new System.EventHandler(this.timer_panelBawah5_Tick);
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.tableLayoutPanel1.SetColumnSpan(this.panel2, 5);
+            this.panel2.Controls.Add(this.label_berjalan);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 285);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(663, 34);
+            this.panel2.TabIndex = 11;
+            // 
+            // label_berjalan
+            // 
+            this.label_berjalan.AutoSize = true;
+            this.label_berjalan.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_berjalan.Location = new System.Drawing.Point(590, 4);
+            this.label_berjalan.Name = "label_berjalan";
+            this.label_berjalan.Size = new System.Drawing.Size(65, 26);
+            this.label_berjalan.TabIndex = 10;
+            this.label_berjalan.Text = "label1";
             // 
             // Form1
             // 
@@ -165,27 +229,42 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(669, 464);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.DoubleBuffered = true;
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Form1_PreviewKeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser webBrowser1;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.WebBrowser webBrowser_besar;
+        private System.Windows.Forms.Timer timer_panelBesar;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.WebBrowser webBrowser2;
-        private System.Windows.Forms.WebBrowser webBrowser3;
-        private System.Windows.Forms.WebBrowser webBrowser4;
-        private System.Windows.Forms.WebBrowser webBrowser5;
-        private System.Windows.Forms.WebBrowser webBrowser6;
-        private System.Windows.Forms.WebBrowser webBrowser7;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.WebBrowser webBrowser_bawah1;
+        private System.Windows.Forms.WebBrowser webBrowser_bawah2;
+        private System.Windows.Forms.WebBrowser webBrowser_bawah3;
+        private System.Windows.Forms.WebBrowser webBrowser_bawah4;
+        private System.Windows.Forms.WebBrowser webBrowser_bawah5;
+        private System.Windows.Forms.Panel panel_video;
+        private System.Windows.Forms.Timer timer_teksBerjalan;
+        private DoubleBufferedPanel panel2;
+        private System.Windows.Forms.Label label_berjalan;
+        private System.Windows.Forms.Timer timer_panelBawah1;
+        private System.Windows.Forms.Timer timer_panelBawah2;
+        private System.Windows.Forms.Timer timer_panelBawah3;
+        private System.Windows.Forms.Timer timer_panelBawah4;
+        private System.Windows.Forms.Timer timer_panelBawah5;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

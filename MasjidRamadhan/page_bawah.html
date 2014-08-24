@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <style type="text/css">
+            body, html 
+            {
+                margin: 0 auto;
+                padding: 0;
+                background-color: Black;
+            }
+            
+            div#imgObj
+            {
+                position:absolute;
+                width: 100%;
+                height: 90%;
+                top:10%;
+                FILTER: progid:DXImageTransform.Microsoft.RandomDissolve();
+                white-space:nowrap;
+            }
+            
+            div#imgObj:before,
+            .frame_before
+            {
+                content:"";
+                height:100%;
+                display:inline-block;
+                vertical-align: middle;
+                margin:0;
+                padding:0;
+            }
+            div#imgObj img
+            {
+                width: 100%;
+                display:inline-block;
+                vertical-align: middle;
+            }
+            
+            /* Move this to conditional comments */
+            div#imgObj{
+                list-style:none;
+                /*behavior: expression(
+                    function(t){
+                        t.insertAdjacentHTML('afterBegin','<span class="frame_before"></span>');
+                        t.runtimeStyle.behavior = 'none';
+                    }(this)
+                );*/
+            }
+        </style>
+	    <script type="text/javascript">
+	    var startImage ="fruit.gif";
+	    var endImage="mouse.gif";
+	    var gold = 1;
+	    function doTrans(text) {
+			//imgObj.filters[0].orientation='horizontal';
+			imgObj.filters[0].apply();
+			if (gold == 1) {
+				//oImg.src = endImage;
+				gold = 0;
+				//imgObj.style.backgroundColor = "gold";
+				//imgObjText.innerHTML =             "<BR><B>Second Page</B><BR><BR>Using the <B>play</B> method reveals the changes in the SPAN element content.";
+			}
+			else {
+				//oImg.src = startImage;
+				gold = 1;
+				//imgObj.style.backgroundColor = "skyblue";
+				//imgObjText.innerHTML =             "<BR><b>First Page</b><BR><BR>Using the <B>apply</B> method prepares this SPAN element for content changes.";
+			}
+			imgObj.innerHTML = text;
+			imgObj.filters[0].play();
+		}
+	    </script>
+    </head>
+    <body>
+        <div style="position:absolute; width:100%;height:10%;background-color:Orange;"></div>
+        <div style="" id="imgObj">
+	    </div>
+    </body>
+</html>
