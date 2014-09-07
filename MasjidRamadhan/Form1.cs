@@ -23,7 +23,7 @@ namespace MasjidRamadhan
         // 0 image mode
         // 1 sumbangan mode
         // 2 saldo mode
-        int mode = 0;
+        int mode = 2;
 
         List<string> images;
         int currImage;
@@ -57,7 +57,11 @@ namespace MasjidRamadhan
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //GoFullscreen(true);
+            GoFullscreen(true);
+
+            timer_panelBesar.Enabled = true;
+            timer_teksBerjalan.Enabled = true;
+            timer_panelBawah1.Enabled = true;
 
             ExcelOleHelper.GetSheetRange("Laporan Keuangan$", sumbanganConnectionString, out sumbanganColCount, out sumbanganRowCount);
             
@@ -97,6 +101,7 @@ namespace MasjidRamadhan
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message + ":" + ex.StackTrace);
             }
         }
 
@@ -162,9 +167,13 @@ namespace MasjidRamadhan
         {
             if (fullscreen)
             {
-                this.WindowState = FormWindowState.Normal;
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-                this.Bounds = Screen.PrimaryScreen.Bounds;
+                SelectScreenForm selectScreenForm = new SelectScreenForm();
+                if (DialogResult.OK == selectScreenForm.ShowDialog())
+                {
+                    this.WindowState = FormWindowState.Normal;
+                    this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                    this.Bounds = selectScreenForm.SelectedScreen.Bounds;
+                }
             }
             else
             {
@@ -252,13 +261,22 @@ namespace MasjidRamadhan
             {
                 if (currImage >= images.Count)
                     currImage = 0;
-                return "<img class=\"midvertical\" src='" + images[currImage++] + "' />";
+                string imgTag = "<img class=\"midvertical\" src='" + images[currImage] + "' />";
+
+                string format;
+                do
+                {
+                    currImage = (currImage + 1) % images.Count;
+                    format = images[currImage].Substring(images[currImage].LastIndexOf('.') + 1).ToLower();
+                } while (format != "jpg");
+                    
+                return imgTag;
             }
         }
 
         private string ShowTabelSumbangan()
         {
-            if (sumbanganOffset > sumbanganRowCount)
+            if (sumbanganOffset >= sumbanganRowCount)
             {
                 sumbanganOffset = 0;
                 NextMode();
