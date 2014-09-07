@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MasjidRamadhanScreen")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Infoglobal")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MasjidRamadhanScreen")]
-[assembly: AssemblyCopyright("Copyright © Infoglobal 2014")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
