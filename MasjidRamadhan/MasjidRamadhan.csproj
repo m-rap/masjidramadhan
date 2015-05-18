@@ -111,9 +111,6 @@
       <DependentUpon>SumbanganForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SumbanganModel.cs" />
-    <EmbeddedResource Include="AddSumbanganForm.resx">
-      <DependentUpon>AddSumbanganForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
