@@ -23,7 +23,7 @@ namespace MasjidRamadhan
         // 0 image mode
         // 1 sumbangan mode
         // 2 saldo mode
-        int mode = 2;
+        int mode = 0;
 
         List<string> images;
         int currImage;
@@ -196,7 +196,7 @@ namespace MasjidRamadhan
                         return dt;
                     }
 
-                    string rangeString = ExcelOleHelper.GetRangeString(sumbanganOffset, sumbanganRowCount - sumbanganLimit, sumbanganColCount, sumbanganRowCount);
+                    string rangeString = ExcelOleHelper.GetRangeString(sumbanganOffset, sumbanganRowCount, sumbanganColCount, sumbanganRowCount);
                     OleDbCommand cmd = new OleDbCommand("SELECT * FROM [Laporan Keuangan$" + rangeString + "]", conn);
                     OleDbDataReader reader = cmd.ExecuteReader();
                     int i = 0, count = 0;
@@ -242,11 +242,20 @@ namespace MasjidRamadhan
                         }
                         i++;
                     }
-                    sumbanganOffset += i;
+                    if (count == 0)
+                    {
+                        sumbanganOffset = sumbanganRowCount + 1;
+                        conn.Close();
+                        return null;
+                    }
+                    else
+                    {
+                        sumbanganOffset += i;
+                        conn.Close();
+                        return dt;
+                    }
 
-                    conn.Close();
-
-                    return dt;
+                    
                 }
             }
             catch
@@ -264,11 +273,20 @@ namespace MasjidRamadhan
                 string imgTag = "<img class=\"midvertical\" src='" + images[currImage] + "' />";
 
                 string format;
-                do
+
+                try
                 {
-                    currImage = (currImage + 1) % images.Count;
-                    format = images[currImage].Substring(images[currImage].LastIndexOf('.') + 1).ToLower();
-                } while (format != "jpg");
+                    do
+                    {
+                        //currImage = (currImage + 1) % images.Count;
+                        currImage++;
+                        format = images[currImage].Substring(images[currImage].LastIndexOf('.') + 1).ToLower();
+                    } while (format != "jpg");
+                }
+                catch
+                {
+                    format = "";
+                }
                     
                 return imgTag;
             }
@@ -284,6 +302,13 @@ namespace MasjidRamadhan
             }
 
             DataTable dt = SelectSumbangan();
+
+            if (dt == null)
+            {
+                sumbanganOffset = 0;
+                NextMode();
+                return InnerHtml();
+            }
 
             string table = "<table id=\"tabel_sumbangan\">";
             table +=
@@ -487,6 +512,19 @@ namespace MasjidRamadhan
                 isFullScreen = !isFullScreen;
                 GoFullscreen(isFullScreen);
             }
+            if (e.KeyCode == Keys.Right)
+            {
+                timer_panelBesar.Enabled = false;
+                webBrowser_besar.Document.InvokeScript("doTrans", new object[] { InnerHtml() });
+                timer_panelBesar.Enabled = true;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            timer_panelBesar.Enabled = false;
+            webBrowser_besar.Document.InvokeScript("doTrans", new object[] { InnerHtml() });
+            timer_panelBesar.Enabled = true;
         }
     }
 }
