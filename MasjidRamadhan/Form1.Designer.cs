@@ -38,8 +38,6 @@
             this.webBrowser_bawah4 = new System.Windows.Forms.WebBrowser();
             this.webBrowser_bawah5 = new System.Windows.Forms.WebBrowser();
             this.panel_video = new System.Windows.Forms.Panel();
-            this.panel2 = new MasjidRamadhan.DoubleBufferedPanel(this.components);
-            this.label_berjalan = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer_teksBerjalan = new System.Windows.Forms.Timer(this.components);
             this.timer_panelBawah1 = new System.Windows.Forms.Timer(this.components);
@@ -47,9 +45,12 @@
             this.timer_panelBawah3 = new System.Windows.Forms.Timer(this.components);
             this.timer_panelBawah4 = new System.Windows.Forms.Timer(this.components);
             this.timer_panelBawah5 = new System.Windows.Forms.Timer(this.components);
+            this.panel2 = new MasjidRamadhan.DoubleBufferedPanel(this.components);
+            this.button1 = new System.Windows.Forms.Button();
+            this.label_berjalan = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // webBrowser_besar
@@ -156,27 +157,6 @@
             this.panel_video.Size = new System.Drawing.Size(264, 135);
             this.panel_video.TabIndex = 9;
             // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.SystemColors.Control;
-            this.tableLayoutPanel1.SetColumnSpan(this.panel2, 5);
-            this.panel2.Controls.Add(this.label_berjalan);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 285);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(663, 34);
-            this.panel2.TabIndex = 11;
-            // 
-            // label_berjalan
-            // 
-            this.label_berjalan.AutoSize = true;
-            this.label_berjalan.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_berjalan.Location = new System.Drawing.Point(590, 4);
-            this.label_berjalan.Name = "label_berjalan";
-            this.label_berjalan.Size = new System.Drawing.Size(65, 26);
-            this.label_berjalan.TabIndex = 10;
-            this.label_berjalan.Text = "label1";
-            // 
             // pictureBox1
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.pictureBox1, 2);
@@ -219,6 +199,39 @@
             this.timer_panelBawah5.Interval = 5000;
             this.timer_panelBawah5.Tick += new System.EventHandler(this.timer_panelBawah5_Tick);
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.tableLayoutPanel1.SetColumnSpan(this.panel2, 5);
+            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.label_berjalan);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 285);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(663, 34);
+            this.panel2.TabIndex = 11;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(421, 8);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label_berjalan
+            // 
+            this.label_berjalan.AutoSize = true;
+            this.label_berjalan.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_berjalan.Location = new System.Drawing.Point(590, 4);
+            this.label_berjalan.Name = "label_berjalan";
+            this.label_berjalan.Size = new System.Drawing.Size(65, 26);
+            this.label_berjalan.TabIndex = 10;
+            this.label_berjalan.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,9 +248,9 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Form1_PreviewKeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -262,6 +275,7 @@
         private System.Windows.Forms.Timer timer_panelBawah4;
         private System.Windows.Forms.Timer timer_panelBawah5;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button1;
     }
 }
 
