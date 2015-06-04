@@ -1,0 +1,10 @@
+D:\Users\m.rap\Documents\Visual Studio 2010\Projects\masjidramadhan\MasjidRamadhan\SUMBANGAN MASJID.xls
+
+Laporan Keuangan
+
+B1625:E1635
+
+Tanggal:DateTime
+Nama:String
+Alamat:String
+Jumlah:float
