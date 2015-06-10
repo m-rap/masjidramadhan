@@ -53,6 +53,7 @@
             this.sumbanganDgv.Location = new System.Drawing.Point(12, 39);
             this.sumbanganDgv.Name = "sumbanganDgv";
             this.sumbanganDgv.ReadOnly = true;
+            this.sumbanganDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.sumbanganDgv.Size = new System.Drawing.Size(660, 481);
             this.sumbanganDgv.TabIndex = 0;
             // 
@@ -110,7 +111,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(167, 21);
             this.comboBox1.TabIndex = 5;
-            this.comboBox1.Text = "Sumbangan";
             // 
             // prevLinkLabel
             // 

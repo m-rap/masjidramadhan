@@ -176,7 +176,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(644, 209);
+            this.ClientSize = new System.Drawing.Size(659, 209);
             this.Controls.Add(this.rpLabel);
             this.Controls.Add(this.contohLabel);
             this.Controls.Add(this.cancelButton);

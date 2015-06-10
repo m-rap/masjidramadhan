@@ -14,15 +14,19 @@ namespace MasjidRamadhan.UI
         [STAThread]
         static void Main()
         {
-            using (Model.SqliteConnectionHelper connection = new Model.SqliteConnectionHelper(ConfigurationManager.AppSettings["db_path"]))
+            try
             {
-                Model.Person p = new Model.Person(connection);
-                p.Get();
+                using (Model.SqliteConnectionHelper connection = new Model.SqliteConnectionHelper(ConfigurationManager.AppSettings["db_path"]))
+                {
+                    Model.Person p = new Model.Person(connection);
+                    p.Get();
+                }
             }
+            catch { }
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ExcelChecker());
+            Application.Run(new Manager());
         }
     }
 }

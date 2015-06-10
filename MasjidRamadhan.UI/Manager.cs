@@ -18,9 +18,16 @@ namespace MasjidRamadhan.UI
         public Manager()
         {
             InitializeComponent();
+            comboBox1.MouseWheel += new MouseEventHandler(comboBox1_MouseWheel);
+            comboBox1.SelectedIndex = 0;
             monthComboBox.SelectedIndex = DateTime.Now.Month - 1;
             yearTextBox.Value = DateTime.Now.Year;
             connection = new SqliteConnectionHelper(ConfigurationManager.AppSettings["db_path"]);
+        }
+
+        void comboBox1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            ((HandledMouseEventArgs)e).Handled = true;
         }
 
         void LoadTable()

@@ -45,6 +45,8 @@
             this.yearTextBox = new System.Windows.Forms.NumericUpDown();
             this.monthLabel = new System.Windows.Forms.Label();
             this.yearLabel = new System.Windows.Forms.Label();
+            this.insertButton = new System.Windows.Forms.Button();
+            this.loadButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.validDgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorDgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearTextBox)).BeginInit();
@@ -115,14 +117,12 @@
             // 
             // validDgv
             // 
-            this.validDgv.AllowUserToAddRows = false;
-            this.validDgv.AllowUserToDeleteRows = false;
             this.validDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.validDgv.Location = new System.Drawing.Point(218, 12);
             this.validDgv.Name = "validDgv";
-            this.validDgv.ReadOnly = true;
+            this.validDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.validDgv.Size = new System.Drawing.Size(454, 250);
-            this.validDgv.TabIndex = 7;
+            this.validDgv.TabIndex = 13;
             // 
             // colnamesTextBox
             // 
@@ -130,7 +130,7 @@
             this.colnamesTextBox.Multiline = true;
             this.colnamesTextBox.Name = "colnamesTextBox";
             this.colnamesTextBox.Size = new System.Drawing.Size(155, 143);
-            this.colnamesTextBox.TabIndex = 8;
+            this.colnamesTextBox.TabIndex = 7;
             this.colnamesTextBox.WordWrap = false;
             // 
             // errorDgv
@@ -141,8 +141,9 @@
             this.errorDgv.Location = new System.Drawing.Point(218, 268);
             this.errorDgv.Name = "errorDgv";
             this.errorDgv.ReadOnly = true;
+            this.errorDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.errorDgv.Size = new System.Drawing.Size(454, 255);
-            this.errorDgv.TabIndex = 9;
+            this.errorDgv.TabIndex = 14;
             // 
             // colnamesLabel
             // 
@@ -155,7 +156,7 @@
             // 
             // checkButton
             // 
-            this.checkButton.Location = new System.Drawing.Point(57, 294);
+            this.checkButton.Location = new System.Drawing.Point(57, 323);
             this.checkButton.Name = "checkButton";
             this.checkButton.Size = new System.Drawing.Size(75, 23);
             this.checkButton.TabIndex = 11;
@@ -181,7 +182,7 @@
             this.monthComboBox.Location = new System.Drawing.Point(57, 241);
             this.monthComboBox.Name = "monthComboBox";
             this.monthComboBox.Size = new System.Drawing.Size(121, 21);
-            this.monthComboBox.TabIndex = 12;
+            this.monthComboBox.TabIndex = 8;
             // 
             // yearTextBox
             // 
@@ -199,7 +200,7 @@
             0});
             this.yearTextBox.Name = "yearTextBox";
             this.yearTextBox.Size = new System.Drawing.Size(84, 20);
-            this.yearTextBox.TabIndex = 13;
+            this.yearTextBox.TabIndex = 9;
             this.yearTextBox.Value = new decimal(new int[] {
             2010,
             0,
@@ -224,11 +225,32 @@
             this.yearLabel.TabIndex = 15;
             this.yearLabel.Text = "Year";
             // 
+            // insertButton
+            // 
+            this.insertButton.Location = new System.Drawing.Point(57, 352);
+            this.insertButton.Name = "insertButton";
+            this.insertButton.Size = new System.Drawing.Size(75, 23);
+            this.insertButton.TabIndex = 12;
+            this.insertButton.Text = "Insert";
+            this.insertButton.UseVisualStyleBackColor = true;
+            // 
+            // loadButton
+            // 
+            this.loadButton.Location = new System.Drawing.Point(57, 294);
+            this.loadButton.Name = "loadButton";
+            this.loadButton.Size = new System.Drawing.Size(75, 23);
+            this.loadButton.TabIndex = 10;
+            this.loadButton.Text = "Load";
+            this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+            // 
             // ExcelChecker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 535);
+            this.Controls.Add(this.loadButton);
+            this.Controls.Add(this.insertButton);
             this.Controls.Add(this.yearLabel);
             this.Controls.Add(this.monthLabel);
             this.Controls.Add(this.yearTextBox);
@@ -274,5 +296,7 @@
         private System.Windows.Forms.NumericUpDown yearTextBox;
         private System.Windows.Forms.Label monthLabel;
         private System.Windows.Forms.Label yearLabel;
+        private System.Windows.Forms.Button insertButton;
+        private System.Windows.Forms.Button loadButton;
     }
 }

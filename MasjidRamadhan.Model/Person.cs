@@ -58,34 +58,26 @@ namespace MasjidRamadhan.Model
         {
             if (!connection.Connect())
                 return -1;
-            try
+            using (SQLiteCommand cmd = connection.DbConnection.CreateCommand())
             {
-                using (SQLiteCommand cmd = connection.DbConnection.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText =
-                        "SELECT * FROM person WHERE prs_nama = @namaParam AND prs_alamat = @alamatParam;";
-                    cmd.Parameters.AddRange(
-                        new SQLiteParameter[] {
-                            new SQLiteParameter("@namaParam", DbType.String) { Value = nama },
-                            new SQLiteParameter("@alamatParam", DbType.String) { Value = alamat },
-                        }
-                    );
-                    using (SQLiteDataReader reader = cmd.ExecuteReader())
-                    {
-                        int id = -1;
-                        while (reader.Read())
-                        {
-                            id = int.Parse(reader["prs_id"].ToString());
-                        }
-                        return id;
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText =
+                    "SELECT * FROM person WHERE prs_nama = @namaParam AND prs_alamat = @alamatParam;";
+                cmd.Parameters.AddRange(
+                    new SQLiteParameter[] {
+                        new SQLiteParameter("@namaParam", DbType.String) { Value = nama },
+                        new SQLiteParameter("@alamatParam", DbType.String) { Value = alamat },
                     }
+                );
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    int id = -1;
+                    while (reader.Read())
+                    {
+                        id = int.Parse(reader["prs_id"].ToString());
+                    }
+                    return id;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message + ". " + ex.StackTrace);
-                return -1;
             }
         }
 

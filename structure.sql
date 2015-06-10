@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `barang` (
 CREATE TABLE IF NOT EXISTS `pengeluaran` (
     `plr_id`            INTEGER PRIMARY KEY AUTOINCREMENT,
     `plr_tanggal`       DATETIME,
-    `plr_total`         REAL,
+    `plr_total`	        REAL DEFAULT 0,
     `plr_hitung_manual` BOOLEAN,
     `plr_toko`          INTEGER,
     `plr_keterangan`    TEXT

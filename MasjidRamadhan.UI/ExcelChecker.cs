@@ -14,6 +14,8 @@ namespace MasjidRamadhan.UI
 {
     public partial class ExcelChecker : Form
     {
+        string[] columns;
+        string[] types;
         DataTable errorDt = new DataTable();
 
         public ExcelChecker()
@@ -40,28 +42,40 @@ namespace MasjidRamadhan.UI
             openFileDialog1.ShowDialog();
         }
 
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            DataTable dt = ExcelOleHelper.ExecuteReader(fileTextBox.Text, sheetTextBox.Text, rangeTextBox.Text);
+
+            columns = colnamesTextBox.Text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.None);
+            if (columns.Length != dt.Columns.Count)
+                return;
+            List<string> t = new List<string>();
+            for (int i = 0; i < columns.Length; i++)
+            {
+                string[] col = columns[i].Split(':');
+                if (col.Length < 2) continue;
+                dt.Columns[i].ColumnName = col[0];
+                t.Add(col[1]);
+            }
+            types = t.ToArray();
+
+            BindingSource bs1 = new BindingSource();
+            bs1.DataSource = dt;
+            validDgv.Columns.Clear();
+            validDgv.DataSource = bs1;
+        }
+
         private void checkButton_Click(object sender, EventArgs e)
         {
             try
             {
-                string[] cols = colnamesTextBox.Text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.None);
-                DataTable dt = ExcelOleHelper.ExecuteReader(fileTextBox.Text, sheetTextBox.Text, rangeTextBox.Text);
-                if (cols.Length != dt.Columns.Count)
-                    return;
-                List<string> types = new List<string>();
-                for (int i = 0; i < cols.Length; i++)
-                {
-                    string[] col = cols[i].Split(':');
-                    if (col.Length < 2) continue;
-                    dt.Columns[i].ColumnName = col[0];
-                    types.Add(col[1]);
-                }
+                DataTable dt = (validDgv.DataSource as BindingSource).DataSource as DataTable;
 
                 errorDt.Rows.Clear();
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     DataRow row = dt.Rows[i];
-                    for (int j = 0; j < cols.Length; j++)
+                    for (int j = 0; j < columns.Length; j++)
                     {
                         switch (types[j])
                         {
@@ -73,19 +87,11 @@ namespace MasjidRamadhan.UI
                                     dateTime = DateTime.FromOADate(val);
                                 else if (!DateTime.TryParse(row[j].ToString(), out dateTime))
                                 {
-                                    DataRow r = errorDt.NewRow();
-                                    r["Description"] = "Failed to parse DateTime.";
-                                    r["Row"] = i.ToString();
-                                    r["Column"] = j.ToString();
-                                    errorDt.Rows.Add(r);
+                                    AddError(i + 1, j + 1, "Failed to parse DateTime.");
                                 }
                                 if (monthComboBox.SelectedIndex + 1 != dateTime.Month || yearTextBox.Value != dateTime.Year)
                                 {
-                                    DataRow r = errorDt.NewRow();
-                                    r["Description"] = "Unexpected DateTime.";
-                                    r["Row"] = i.ToString();
-                                    r["Column"] = j.ToString();
-                                    errorDt.Rows.Add(r);
+                                    AddError(i + 1, j + 1, "Unexpected DateTime.");
                                 }
                                 break;
                             case "float":
@@ -95,21 +101,12 @@ namespace MasjidRamadhan.UI
                                 }
                                 catch
                                 {
-                                    DataRow r = errorDt.NewRow();
-                                    r["Description"] = "Failed to parse float.";
-                                    r["Row"] = i.ToString();
-                                    r["Column"] = j.ToString();
-                                    errorDt.Rows.Add(r);
+                                    AddError(i + 1, j + 1, "Failed to parse float.");
                                 }
                                 break;
                         }
                     }
                 }
-
-                BindingSource bs1 = new BindingSource();
-                bs1.DataSource = dt;
-                validDgv.Columns.Clear();
-                validDgv.DataSource = bs1;
 
                 BindingSource bs2 = new BindingSource();
                 bs2.DataSource = errorDt;
@@ -121,6 +118,15 @@ namespace MasjidRamadhan.UI
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
+        }
+
+        private void AddError(int row, int column, string errorStr)
+        {
+            DataRow r = errorDt.NewRow();
+            r["Description"] = errorStr;
+            r["Row"] = row;
+            r["Column"] = column;
+            errorDt.Rows.Add(r);
         }
     }
 }
