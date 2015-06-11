@@ -47,6 +47,7 @@ namespace MasjidRamadhan.Model
                     while (reader.Read())
                     {
                         id = int.Parse(reader["tko_id"].ToString());
+						break;
                     }
                     return id;
                 }
